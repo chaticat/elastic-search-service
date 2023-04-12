@@ -1,12 +1,12 @@
 package com.chaticat.elasticsearchservice.repository;
 
 import com.chaticat.elasticsearchservice.user.model.User;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
+import reactor.core.publisher.Flux;
 
-import java.util.List;
 import java.util.UUID;
 
-public interface UserRepository extends ElasticsearchRepository<User, UUID> {
+public interface UserRepository extends ReactiveCrudRepository<User, UUID> {
 
-    List<User> findByUsernameLikeIgnoreCase(String username);
+    Flux<User> findByUsernameLikeIgnoreCase(String username);
 }
