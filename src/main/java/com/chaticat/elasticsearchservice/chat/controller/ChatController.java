@@ -1,7 +1,7 @@
-package com.chaticat.elasticsearchservice.user.controller;
+package com.chaticat.elasticsearchservice.chat.controller;
 
-import com.chaticat.elasticsearchservice.user.model.User;
-import com.chaticat.elasticsearchservice.user.service.UserService;
+import com.chaticat.elasticsearchservice.chat.model.Chat;
+import com.chaticat.elasticsearchservice.chat.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,30 +15,30 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 
-@RequestMapping("/search/users")
+@RequestMapping("/search/chats")
 @RestController
 @RequiredArgsConstructor
-public class UserController {
+public class ChatController {
 
-    private final UserService userService;
+    private final ChatService chatService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void save(@RequestBody User user) {
-        userService.saveUser(user);
+    public void save(@RequestBody Chat chat) {
+        chatService.saveChat(chat);
     }
 
-    @GetMapping("/username")
+    @GetMapping("/name")
     @ResponseStatus(HttpStatus.OK)
-    public Flux<User> getByUsername(@RequestParam("searchText") String searchText,
-                                    @RequestParam(value = "global") boolean global,
-                                    @RequestParam(required = false) String contactId) {
-        return userService.findByUsername(searchText, global, contactId);
+    public Flux<Chat> getByName(@RequestParam String searchText,
+                                @RequestParam boolean global,
+                                @RequestParam(required = false) String participantId) {
+        return chatService.findByName(searchText, global, participantId);
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{chatId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable String userId) {
-        userService.delete(userId);
+    public void delete(@PathVariable String chatId) {
+        chatService.delete(chatId);
     }
 }
